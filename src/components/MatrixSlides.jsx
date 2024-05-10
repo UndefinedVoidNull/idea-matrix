@@ -42,46 +42,61 @@ export function getRandomWords() {
 }
 
 export function WordCard({ word }) {
-  const scrollAreaRef = useRef(null);
+  const pRef = useRef(null);
 
   useEffect(() => {
-    console.log(scrollAreaRef.current);
-      fetch(
-        `https://www.collinsdictionary.com/us/dictionary/english-thesaurus/${word}`
-      )
-        .then((response) => response.text())
-        .then((html) => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, "text/html");
-          const contentElement = doc.querySelector(
-            ".content.synonyms.dictionary.thesbase"
-          );
+    console.log(pRef.current);
+    fetch(
+      `https://www.collinsdictionary.com/us/dictionary/english-thesaurus/${word}`
+    )
+      .then((response) => response.text())
+      .then((html) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const contentElement = doc.querySelector(
+          ".content.synonyms.dictionary.thesbase"
+        );
 
-          if (contentElement) {
-            console.log(contentElement)
-            scrollAreaRef.current.appendChild(contentElement);
-          } else {
-            scrollAreaRef.current.appendChild(<div>No Result</div>);
-            // throw new Error("Element with the specified className not found.");
-          }
-
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-
+        if (contentElement) {
+          console.log(contentElement);
+          pRef.current.innerHTML = ""
+          pRef.current.appendChild(contentElement);
+        } else {
+          pRef.current.appendChild(<div>No Result</div>);
+          // throw new Error("Element with the specified className not found.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }, [word]);
 
+  const [isCardShow, setIsCardShow] = useState(false);
   return (
-    <HoverCard>
-      <HoverCardTrigger>{word}</HoverCardTrigger>
-      <HoverCardContent className="w-[400px]">
-        <ScrollArea
-          ref={scrollAreaRef}
-          className="h-[300px] rounded-md border p-4 font-normal"
-        ></ScrollArea>
-      </HoverCardContent>
-    </HoverCard>
+    <>
+      <h1
+        onMouseEnter={(ev) => {
+          setIsCardShow(true);
+        }}
+        onMouseLeave={(ev) => {
+          setIsCardShow(false);
+        }}
+      >
+        {word}
+      </h1>
+      <p
+        ref={pRef}
+        onMouseEnter={(ev) => {
+          setIsCardShow(true);
+        }}
+        onMouseLeave={(ev) => {
+          setIsCardShow(false);
+        }}
+        className={`z-10 text-start absolute bg-white rounded-md max-w-[500px] max-h-[300px] overflow-auto border p-4 font-normal ${
+          isCardShow ? "" : "hidden"
+        }`}
+      ></p>
+    </>
   );
 }
 
@@ -178,10 +193,10 @@ export function Matrix(props) {
             <WordCard word={wordCol} />
           </th>
           <td className="border border-gray-400 px-4 py-2">
-            <WordCard word={wordCol} /> x <WordCard word={wordRow} />
+            {wordCol} x {wordRow}
           </td>
           <td className="border border-gray-400 px-4 py-2">
-            <WordCard word={wordCol} /> x NOT <WordCard word={wordRow} />
+            {wordCol} x NOT {wordRow}
           </td>
         </tr>
         <tr>
@@ -189,10 +204,10 @@ export function Matrix(props) {
             NOT <WordCard word={wordCol} />
           </th>
           <td className="border border-gray-400 px-4 py-2">
-            NOT <WordCard word={wordCol} /> x <WordCard word={wordRow} />
+            NOT {wordCol} x {wordRow}
           </td>
           <td className="border border-gray-400 px-4 py-2">
-            NOT <WordCard word={wordCol} /> x NOT <WordCard word={wordRow} />
+            NOT {wordCol} x NOT {wordRow}
           </td>
         </tr>
       </tbody>

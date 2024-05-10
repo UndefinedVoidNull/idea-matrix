@@ -1,0 +1,19 @@
+input[type="radio"] {
+    display: none;
+}
+
+.sense.opened.moreAnt.moreSyn {
+    margin-bottom: 20px;
+}
+
+.titleType {
+    color: #0073E6;
+    font-weight: bold;
+}
+
+a,
+a:visited,
+a:active {
+    color: black;
+    text-decoration: underline;
+}
