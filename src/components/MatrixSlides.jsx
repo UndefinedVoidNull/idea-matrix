@@ -1,8 +1,14 @@
 "use client";
 
 // MatrixSlides.jsx
+import html2canvas from "html2canvas";
+
 import { words } from "@/app/words";
-import { Shuffle } from "lucide-react";
+
+import { Shuffle, Loader2 } from "lucide-react";
+
+import { Input } from "@/components/ui/input";
+
 import {
   HoverCard,
   HoverCardContent,
@@ -10,9 +16,20 @@ import {
 } from "@/components/ui/hover-card";
 
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { Label } from "@/components/ui/label";
 
-import html2canvas from "html2canvas";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose
+} from "@/components/ui/dialog";
+
+import { useEffect, useRef, useState } from "react";
 
 async function fetchData(word) {
   const res = await fetch(
@@ -50,6 +67,56 @@ export function WordCard({ word }) {
         {/* {json} */}
       </HoverCardContent>
     </HoverCard>
+  );
+}
+
+export function EditDialog(props) {
+  const { wordCol, wordRow, index, setIndex, wordMatrix, setWordMatrix } =
+    props;
+
+  const rowRef = useRef(null);
+  const colRef = useRef(null);
+
+  function save() {
+    const rowWord = rowRef.current.value;
+    const colWord = colRef.current.value;
+    setWordMatrix((prev) => [...prev, [rowWord, colWord]]);
+    setIndex((prev) => wordMatrix.length);
+  }
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Edit</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit Words</DialogTitle>
+          {/* <DialogDescription>
+            Make changes to WordRow, WordCol
+          </DialogDescription> */}
+        </DialogHeader>
+        <div className="flex flex-row items-center gap-3">
+          <Label htmlFor="name" className="text-right">
+            Row
+          </Label>
+          <Input ref={rowRef} id="row" defaultValue={wordRow} />
+        </div>
+        <div className="flex flex-row items-center gap-3">
+          <Label htmlFor="username" className="text-right">
+            Col
+          </Label>
+          <Input ref={colRef} id="col" defaultValue={wordCol} />
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="submit" onClick={save}>
+              Save
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -126,6 +193,15 @@ export function MatrixSlides() {
     setWordMatrix((prevWords) => [getRandomWords()]);
   }, []);
 
+  if (wordMatrix[0][0] === "") {
+    // Data is not available yet, render a loading state or placeholder
+    return (
+      <div className="flex w-full h-screen justify-center items-center">
+        <Loader2 className="mr-2 h-[30%] w-[30%] animate-spin" />
+      </div>
+    );
+  }
+
   function prev() {
     if (index > 0) {
       setIndex((prevIndex) => prevIndex - 1);
@@ -180,6 +256,16 @@ export function MatrixSlides() {
         <Button variant="outline" onClick={prev}>
           Prev
         </Button>
+
+        <EditDialog
+          wordRow={wordMatrix[index][0]}
+          wordCol={wordMatrix[index][1]}
+          index={index}
+          setIndex={setIndex}
+          wordMatrix={wordMatrix}
+          setWordMatrix={setWordMatrix}
+        />
+
         <Button variant="outline" onClick={downloadImage}>
           Save
         </Button>
