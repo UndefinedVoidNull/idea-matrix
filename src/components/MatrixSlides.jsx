@@ -26,7 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 
 import { useEffect, useRef, useState } from "react";
@@ -270,7 +270,7 @@ export function MatrixSlides() {
           Save
         </Button>
         <Button variant="outline" onClick={next}>
-          Next
+          {index + 1 === wordMatrix.length ? "New" : "Next"}
         </Button>
       </div>
     </div>
