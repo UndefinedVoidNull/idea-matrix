@@ -59,10 +59,12 @@ export function WordCard({ word }) {
 
         if (contentElement) {
           console.log(contentElement);
-          pRef.current.innerHTML = ""
+          pRef.current.innerHTML = "";
           pRef.current.appendChild(contentElement);
+          pRef.current.scrollTop = 0;
+
         } else {
-          pRef.current.appendChild(<div>No Result</div>);
+          pRef.current.innerHTML = "No Result";
           // throw new Error("Element with the specified className not found.");
         }
       })
@@ -77,25 +79,29 @@ export function WordCard({ word }) {
       <h1
         onMouseEnter={(ev) => {
           setIsCardShow(true);
+          pRef.current.scrollTop = 0;
         }}
         onMouseLeave={(ev) => {
           setIsCardShow(false);
+          pRef.current.scrollTop = 0;
         }}
       >
         {word}
       </h1>
-      <p
+      <div
         ref={pRef}
         onMouseEnter={(ev) => {
           setIsCardShow(true);
+          pRef.current.scrollTop = 0;
         }}
         onMouseLeave={(ev) => {
           setIsCardShow(false);
+          pRef.current.scrollTop = 0;
         }}
         className={`z-10 text-start absolute bg-white rounded-md max-w-[500px] max-h-[300px] overflow-auto border p-4 font-normal ${
           isCardShow ? "" : "hidden"
         }`}
-      ></p>
+      ></div>
     </>
   );
 }
