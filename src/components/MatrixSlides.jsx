@@ -8,6 +8,7 @@ import { words } from "@/app/words";
 import { Shuffle, Loader2 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
   HoverCard,
@@ -31,24 +32,6 @@ import {
 
 import { useEffect, useRef, useState } from "react";
 
-async function fetchData(word) {
-  const res = await fetch(
-    `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-  );
-  const json = await res.json();
-
-  // const sourceUrls = json[0].sourceUrls
-  const antonyms = json[0].meanings[0].antonyms;
-  const synonyms = json[0].meanings[0].synonyms;
-  const definitions = json[0].meanings[0].definitions;
-  console.log("antonyms: ", antonyms);
-  console.log("synonyms: ", synonyms);
-  definitions.forEach((definitionWrapper) => {
-    console.log("definition: ", definitionWrapper.definition);
-  });
-}
-fetchData("wicked");
-
 export function getRandomWord() {
   const word = words[Math.floor(Math.random() * words.length)];
   return word.charAt(0).toUpperCase() + word.slice(1);
@@ -59,12 +42,44 @@ export function getRandomWords() {
 }
 
 export function WordCard({ word }) {
+  const scrollAreaRef = useRef(null);
+
+  useEffect(() => {
+    console.log(scrollAreaRef.current);
+      fetch(
+        `https://www.collinsdictionary.com/us/dictionary/english-thesaurus/${word}`
+      )
+        .then((response) => response.text())
+        .then((html) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          const contentElement = doc.querySelector(
+            ".content.synonyms.dictionary.thesbase"
+          );
+
+          if (contentElement) {
+            console.log(contentElement)
+            scrollAreaRef.current.appendChild(contentElement);
+          } else {
+            scrollAreaRef.current.appendChild(<div>No Result</div>);
+            // throw new Error("Element with the specified className not found.");
+          }
+
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+
+  }, [word]);
+
   return (
     <HoverCard>
       <HoverCardTrigger>{word}</HoverCardTrigger>
-      <HoverCardContent>
-        Good
-        {/* {json} */}
+      <HoverCardContent className="w-[400px]">
+        <ScrollArea
+          ref={scrollAreaRef}
+          className="h-[300px] rounded-md border p-4 font-normal"
+        ></ScrollArea>
       </HoverCardContent>
     </HoverCard>
   );

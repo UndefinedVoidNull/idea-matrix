@@ -1,5 +1,11 @@
+import { WordCard } from '@/components/MatrixSlides'
+
+
 export default function Test() {
+
   return (
-    <>Test</>
+    <>
+      <WordCard word={"bad"} />
+    </>
   )
 }
