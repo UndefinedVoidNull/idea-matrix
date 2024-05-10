@@ -1,4 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+晃上去有词语解释, 近义词, 反义词等等
+Prev Download Next
+History -> LocalStorage
+Jump to Google
+在矩阵基础上只改变其中一个词
+手动输入词汇, 扩展矩阵成三维
 
 ## Getting Started
 
