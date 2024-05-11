@@ -45,7 +45,7 @@ export function WordCard({ word }) {
   const pRef = useRef(null);
 
   useEffect(() => {
-    console.log(pRef.current);
+    // console.log(pRef.current);
     fetch(
       `https://www.collinsdictionary.com/us/dictionary/english-thesaurus/${word}`
     )
@@ -58,7 +58,6 @@ export function WordCard({ word }) {
         );
 
         if (contentElement) {
-          console.log(contentElement);
           pRef.current.innerHTML = "";
           pRef.current.appendChild(contentElement);
           pRef.current.scrollTop = 0;
@@ -74,7 +73,6 @@ export function WordCard({ word }) {
               const contentElement = doc.querySelector(".dictlink");
 
               if (contentElement) {
-                console.log(contentElement);
                 pRef.current.innerHTML = "";
                 pRef.current.appendChild(contentElement);
                 pRef.current.scrollTop = 0;
@@ -154,16 +152,16 @@ export function EditDialog(props) {
           </DialogDescription> */}
         </DialogHeader>
         <div className="flex flex-row items-center gap-3">
-          <Label htmlFor="name" className="text-right">
+          <Label className="text-right">
             Row
           </Label>
-          <Input ref={rowRef} id="row" defaultValue={wordRow} />
+          <Input ref={rowRef} defaultValue={wordRow} />
         </div>
         <div className="flex flex-row items-center gap-3">
-          <Label htmlFor="username" className="text-right">
+          <Label className="text-right">
             Col
           </Label>
-          <Input ref={colRef} id="col" defaultValue={wordCol} />
+          <Input ref={colRef} defaultValue={wordCol} />
         </div>
         <DialogFooter>
           <DialogClose asChild>
@@ -298,7 +296,7 @@ export function MatrixSlides() {
         Idea Matrix: {index + 1}/{wordMatrix.length}
       </h2>
 
-      <div id="matrix">
+      <div>
         <Matrix
           wordRow={wordMatrix[index][0]}
           wordCol={wordMatrix[index][1]}
