@@ -124,8 +124,8 @@ export function EditDialog(props) {
   const colRef = useRef(null);
 
   function save() {
-    const rowWord = rowRef.current.value;
-    const colWord = colRef.current.value;
+    const rowWord = rowRef.current.value.trim();
+    const colWord = colRef.current.value.trim();
     setWordMatrix((prev) => [...prev, [rowWord, colWord]]);
     setIndex((prev) => wordMatrix.length);
   }
