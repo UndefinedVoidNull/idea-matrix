@@ -1,4 +1,4 @@
-History -> LocalStorage ?
+History -> LocalStorage/IndexedDB ?
 
 ## Getting Started
 
