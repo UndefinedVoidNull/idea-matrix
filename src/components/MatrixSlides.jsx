@@ -62,14 +62,35 @@ export function WordCard({ word }) {
           pRef.current.innerHTML = "";
           pRef.current.appendChild(contentElement);
           pRef.current.scrollTop = 0;
-
         } else {
-          pRef.current.innerHTML = "No Result";
-          // throw new Error("Element with the specified className not found.");
+          // If synonyms not found, fetch the definition
+          fetch(
+            `https://www.collinsdictionary.com/us/dictionary/english/${word}`
+          )
+            .then((response) => response.text())
+            .then((html) => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, "text/html");
+              const contentElement = doc.querySelector(".dictlink");
+
+              if (contentElement) {
+                console.log(contentElement);
+                pRef.current.innerHTML = "";
+                pRef.current.appendChild(contentElement);
+                pRef.current.scrollTop = 0;
+              } else {
+                pRef.current.innerHTML = "No Result";
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              pRef.current.innerHTML = "No Result";
+            });
         }
       })
       .catch((error) => {
         console.error("Error:", error);
+        pRef.current.innerHTML = "No Result";
       });
   }, [word]);
 

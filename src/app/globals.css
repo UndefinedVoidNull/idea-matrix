@@ -94,6 +94,17 @@ input[type="radio"] {
   font-weight: bold;
 }
 
+.title_frequency_container {
+  display: none;
+}
+
+.ptr.hwd_sound.type-hwd_sound {
+  display: none;
+}
+
+.cB.cB-def.cobuild.am > div {
+  margin-bottom: 8px;
+}
 a,
 a:visited,
 a:active {
