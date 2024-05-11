@@ -285,7 +285,7 @@ export function MatrixSlides() {
       // Create a new anchor element
       const a = document.createElement("a");
       a.href = url;
-      a.download = "content.png";
+      a.download = "idea-matrix.vercel.app.png";
 
       // Simulate a click on the anchor element to trigger the download
       a.click();
