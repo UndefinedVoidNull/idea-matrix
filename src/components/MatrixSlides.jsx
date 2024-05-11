@@ -84,33 +84,32 @@ export function WordCard({ word }) {
       });
   }, [word]);
 
+  const timeoutRef = useRef(null);
   const [isCardShow, setIsCardShow] = useState(false);
+  const showCard = () => {
+    clearTimeout(timeoutRef.current);
+    setIsCardShow(true);
+    pRef.current.scrollTop = 0;
+  };
+
+  const hideCard = () => {
+    // add delay
+    timeoutRef.current = setTimeout(() => {
+      setIsCardShow(false);
+    }, 250); 
+  };
+
   return (
     <>
-      <span
-        onMouseEnter={(ev) => {
-          setIsCardShow(true);
-          pRef.current.scrollTop = 0;
-        }}
-        onMouseLeave={(ev) => {
-          setIsCardShow(false);
-          pRef.current.scrollTop = 0;
-        }}
-      >
+      <span onMouseEnter={showCard} onMouseLeave={hideCard}>
         {word}
       </span>
       <div
         ref={pRef}
-        onMouseEnter={(ev) => {
-          setIsCardShow(true);
-          pRef.current.scrollTop = 0;
-        }}
-        onMouseLeave={(ev) => {
-          setIsCardShow(false);
-          pRef.current.scrollTop = 0;
-        }}
-        className={`z-10 text-start absolute bg-white rounded-md max-w-[500px] max-h-[300px] overflow-auto border p-4 font-normal ${
-          isCardShow ? "" : "hidden"
+        onMouseEnter={showCard}
+        onMouseLeave={hideCard}
+        className={`z-10 text-start absolute bg-white rounded-md max-w-[500px] max-h-[300px] overflow-auto border p-4 font-normal transition-opacity duration-300 ${
+          isCardShow ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       ></div>
     </>
@@ -144,15 +143,11 @@ export function EditDialog(props) {
           </DialogDescription> */}
         </DialogHeader>
         <div className="flex flex-row items-center gap-3">
-          <Label className="text-right">
-            Row
-          </Label>
+          <Label className="text-right">Row</Label>
           <Input ref={rowRef} defaultValue={wordRow} />
         </div>
         <div className="flex flex-row items-center gap-3">
-          <Label className="text-right">
-            Col
-          </Label>
+          <Label className="text-right">Col</Label>
           <Input ref={colRef} defaultValue={wordCol} />
         </div>
         <DialogFooter>
@@ -288,7 +283,7 @@ export function MatrixSlides() {
         Idea Matrix: {index + 1}/{wordMatrix.length}
       </h2>
 
-      <div>
+      <div id="matrix">
         <Matrix
           wordRow={wordMatrix[index][0]}
           wordCol={wordMatrix[index][1]}
