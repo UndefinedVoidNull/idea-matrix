@@ -85,15 +85,6 @@ input[type="radio"] {
   display: none;
 }
 
-.sense.opened.moreAnt.moreSyn {
-  margin-bottom: 20px;
-}
-
-.titleType {
-  color: #0073E6;
-  font-weight: bold;
-}
-
 .title_frequency_container {
   display: none;
 }
@@ -102,9 +93,19 @@ input[type="radio"] {
   display: none;
 }
 
-.cB.cB-def.cobuild.am > div {
+.sense.opened.moreAnt.moreSyn {
+  margin-bottom: 20px;
+}
+
+.cB.cB-def.cobuild.am>div {
   margin-bottom: 8px;
 }
+
+.titleType {
+  color: #0073E6;
+  font-weight: bold;
+}
+
 a,
 a:visited,
 a:active {

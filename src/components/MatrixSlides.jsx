@@ -7,17 +7,9 @@ import { words } from "@/app/words";
 
 import { Shuffle, Loader2 } from "lucide-react";
 
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 import {
   Dialog,
@@ -95,7 +87,7 @@ export function WordCard({ word }) {
   const [isCardShow, setIsCardShow] = useState(false);
   return (
     <>
-      <h1
+      <span
         onMouseEnter={(ev) => {
           setIsCardShow(true);
           pRef.current.scrollTop = 0;
@@ -106,7 +98,7 @@ export function WordCard({ word }) {
         }}
       >
         {word}
-      </h1>
+      </span>
       <div
         ref={pRef}
         onMouseEnter={(ev) => {
