@@ -1,4 +1,3 @@
-晃上去有词语解释, 近义词, 反义词等等
 History -> LocalStorage ?
 
 ## Getting Started
